@@ -1,6 +1,8 @@
 package iris.wit.com.statemanager.utils;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.List;
 
 import iris.wit.com.statemanager.models.IrisState;
 import iris.wit.com.statemanager.models.IrisStateManager;
@@ -15,15 +17,14 @@ public class IrisStateManagerUtils {
      * Gets a list of IrisStateManagers to use for a grid view
      * @return a list of iris state managers
      */
-    public static IrisStateManager[] getIrisStateManagers(){
-        return new IrisStateManager[]{
+    public static List<IrisStateManager> getIrisStateManagers(){
+        return Arrays.asList(
             createIrisStateManager("State1"),
             createIrisStateManager("State2"),
             createIrisStateManager("State3"),
             createIrisStateManager("State4"),
             createIrisStateManager("State5"),
-            createIrisStateManager("State6"),
-        };
+            createIrisStateManager("State6"));
     }
 
     private static IrisStateManager createIrisStateManager(String stateName){
