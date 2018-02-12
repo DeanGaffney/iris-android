@@ -16,7 +16,7 @@ public class IrisStateManager {
     public IrisStateManager(String stateName, List<IrisState> states){
         this.stateName = stateName;
         this.states = states;
-        this.currentStateIndex = 0;
+        this.currentStateIndex = -1;
         this.currentState = this.states.get(this.currentStateIndex);
         setStatesNames();
     }
@@ -61,9 +61,10 @@ public class IrisStateManager {
      *  Changes the currentState to the next available state in the states list
      *  and sets the currentStateIndex to the new index associated with this state
      */
-    public void moveToNextState(){
-        setCurrentStateIndex(getCurrentStateIndex() % getStates().size());
+    public IrisState moveToNextState(){
+        setCurrentStateIndex((getCurrentStateIndex() + 1) % getStates().size());
         setCurrentState(getStates().get(getCurrentStateIndex()));
+        return getCurrentState();
     }
 
     /**
