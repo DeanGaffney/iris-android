@@ -8,6 +8,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import iris.wit.com.statemanager.models.IrisState;
@@ -18,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<IrisStateManager> stateManagers;
     private LinearLayout mainLayout;
+    private RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         stateManagers = IrisStateManagerUtils.getIrisStateManagers();
         mainLayout = findViewById(R.id.mainlayout);
+        queue = Volley.newRequestQueue(this);
         setDefaultButtonStates(mainLayout);
         setOnClickListeners(mainLayout);
     }
@@ -61,10 +73,34 @@ public class MainActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view){
-                        // this code will send the json request
+                        sendJson(view);
                     }
                 });
             }
+        }
+    }
+
+    private void sendJson(final View view){
+        try{
+            String url = "http://ec2-52-16-53-220.eu-west-1.compute.amazonaws.com:8080/iris/schema/route/5";
+            JSONObject outgoingJson = IrisStateManagerUtils.toJson(stateManagers);
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.POST, url, outgoingJson, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(view.getContext(), "Successful Server Response", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(view.getContext(), "Error Received from Server", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            queue.add(jsObjRequest);
+        }catch(JSONException e){
+            Toast.makeText(view.getContext(), "JSON Exception", Toast.LENGTH_SHORT).show();
         }
     }
 }

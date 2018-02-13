@@ -17,7 +17,7 @@ public class IrisStateManager {
         this.stateName = stateName;
         this.states = states;
         this.currentStateIndex = -1;
-        this.currentState = this.states.get(this.currentStateIndex);
+        this.currentState = this.states.get(this.currentStateIndex + 1);
         setStatesNames();
     }
 

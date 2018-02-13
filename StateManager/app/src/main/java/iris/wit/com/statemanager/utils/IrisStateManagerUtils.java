@@ -1,5 +1,8 @@
 package iris.wit.com.statemanager.utils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,6 +35,14 @@ public class IrisStateManagerUtils {
                                                             new IrisState(2, "#3399ff"),
                                                             new IrisState(3, "#33cc33")
                                                         ));
+    }
+
+    public static JSONObject toJson(List<IrisStateManager> stateManagers) throws JSONException{
+        JSONObject jsonObj = new JSONObject();
+        for(IrisStateManager manager : stateManagers){
+            jsonObj.put(manager.getStateName(), manager.getCurrentState().getStateValue());
+        }
+        return jsonObj;
     }
 
 }
