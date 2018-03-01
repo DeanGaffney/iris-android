@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/StateManager.iml" filepath="$PROJECT_DIR$/StateManager.iml" />
-      <module fileurl="file://C:\fyp\iris-agents\iris-android\StateManager\.idea\StateManager.iml" filepath="C:\fyp\iris-agents\iris-android\StateManager\.idea\StateManager.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

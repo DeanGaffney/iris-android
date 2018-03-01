@@ -18,26 +18,31 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import java.util.List;
 
 import iris.wit.com.statemanager.models.IrisState;
 import iris.wit.com.statemanager.models.IrisStateManager;
 import iris.wit.com.statemanager.utils.IrisStateManagerUtils;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private List<IrisStateManager> stateManagers;
     private LinearLayout mainLayout;
     private RequestQueue queue;
+    private String agentAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         stateManagers = IrisStateManagerUtils.getIrisStateManagers();
         mainLayout = findViewById(R.id.mainlayout);
         queue = Volley.newRequestQueue(this);
+        setAgentUrl();
         setDefaultButtonStates(mainLayout);
         setOnClickListeners(mainLayout);
     }
@@ -82,10 +87,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendJson(final View view){
         try{
-            String url = "http://ec2-52-16-53-220.eu-west-1.compute.amazonaws.com:8080/iris/schema/route/5";
             JSONObject outgoingJson = IrisStateManagerUtils.toJson(stateManagers);
             JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.POST, url, outgoingJson, new Response.Listener<JSONObject>() {
+                (Request.Method.POST, agentAddress, outgoingJson, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -102,5 +106,34 @@ public class MainActivity extends AppCompatActivity {
         }catch(JSONException e){
             Toast.makeText(view.getContext(), "JSON Exception", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void setAgentUrl() {
+        String agentAddress = "http://ec2-52-16-53-220.eu-west-1.compute.amazonaws.com:8080/iris/schema/getAgentUrl";
+
+        try {
+            JSONObject outgoingJson = new JSONObject().put("name", "android_agent");
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST, agentAddress, outgoingJson, new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            setAgentUrl(response);
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    });
+            queue.add(jsObjRequest);
+        } catch (JSONException e) {
+        }
+    }
+
+    private void setAgentUrl(JSONObject response) {
+        try{
+            this.agentAddress = response.getString("url");
+        }catch (JSONException e){}
     }
 }
