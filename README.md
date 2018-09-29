@@ -6,7 +6,7 @@
 
 # Iris Android Agent
 
-This repository contains the Android agent for my final year project [Iris](https://github.com/DeanGaffney/iris). The Android agent used to demonstrate Iris' ability to handle state based data. The agent is an application with a grid based UI. Each tile on the UI has a colour coded state that matches the following green => good, blue => netural, red => bad. Each colour also has a numeric value mapped to it which matches the following structure green => 3, blue => 2, red => 1. When a user holds down on a tile changes colour which represents the next state. When the user taps the screen the state of all the tiles are sent up to Iris where it is visualised on a state based dashboard with custom labels and colours for each state based chart.
+This repository contains the Android agent for my final year project [Iris](https://github.com/DeanGaffney/iris). The Android agent used to demonstrate Iris' ability to handle state based data. The agent is an application with a grid based UI. Each tile on the UI has a colour coded state that matches the following green => good, blue => netural, red => bad. Each colour also has a numeric value mapped to it which matches the following structure green => 3, blue => 2, red => 1. When a user holds down on a tile the tile changes colour which represents the next state. When the user taps the screen the state of all the tiles are sent up to Iris where it is visualised on a state based dashboard with custom labels and colours for each state based chart.
 
 ## UI
 The following is an image of the android application UI.
